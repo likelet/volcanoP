@@ -28,7 +28,7 @@ for(i in 1:length(cDep)){
 }
 
 ```
-### Install TBploter
+### Install volcanoP
 To install the latest development build directly from GitHub, run this:
 
 ```R
