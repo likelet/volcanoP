@@ -6,6 +6,7 @@ library(ggplot2)
 library(ggthemes)
 library(dplyr)
 library(ggrepel)
+library(plotly)
 #library(Cairo)
 
 
@@ -14,58 +15,59 @@ library(ggrepel)
 
 
 shinyServer(function(input,output,session){
-   
+
   textinput<-reactive({
     a<-input$markered
     a<-as.character(unlist(strsplit(a,"\n")))
     a
   })
-  
-  
-    datasetInput <- reactive({ 
-                                
+
+
+    datasetInput <- reactive({
+
           example<-read.table("data/test.txt",header=T,sep="\t",row.names=1)
+          example=example[sample(1:nrow(example),500),]
           #example<-read.table("/srv/shiny-server/vocalnoPlotOnline/test.txt",header=T,sep="\t",row.names=1)
            	inFile <- input$file1
             if (!is.null(inFile)){
-                 
-                data<-read.table(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote,row.names=1) 		
-             
+
+                data<-read.table(inFile$datapath, header=input$header, sep=input$sep, quote=input$quote,row.names=1)
+
             }
-            
+
            switch(input$dataset,
                     "example" = example,
                     "upload" = data
-                    )	
+                    )
     	})
-    
-  
-    
+
+
+
     #get plotdata
     plotdataInput<-reactive({
       a<-datasetInput()
       P.Value <- a[,2]
       FC<-a[,1]
       df<-data.frame(P.Value, FC)
-      
+
       df$gene=row.names(a)
-      
+
       # df$threshold<-as.factor(abs(df$FC) > input$FCcut & df$P.Value < input$pcut)
       # df
-      # 
-      
-      df=mutate(df,threshold = ifelse(df$P.Value >input$pcut, 
-                              yes = "none", 
-                              no = ifelse(df$FC < 0, 
-                                          yes = "Down-regulated", 
+      #
+
+      df=mutate(df,threshold = ifelse(df$P.Value >input$pcut,
+                              yes = "none",
+                              no = ifelse(df$FC < 0,
+                                          yes = "Down-regulated",
                                           no = "Up-regulated")))
       df
-      
+
     })
-    
-  
-    
-# output upload dataset or example dataset  
+
+
+
+# output upload dataset or example dataset
     output$summary <- DT::renderDataTable(plotdataInput())
  #plotfunction
     getvocalnoPlot<-reactive({
@@ -78,8 +80,8 @@ shinyServer(function(input,output,session){
         geom_vline(xintercept = 0, colour = "black") + # add line at 0
         geom_hline(yintercept = -log10(input$pcut), colour = "black")  # p(0.05) = 1.3
       if(input$theme=="default"){
-      g=g+theme(legend.position = "none")+ theme_bw()+scale_color_manual(values = c("Down-regulated" = "#E64B35", 
-                                                                                    "Up-regulated" = "#3182bd", 
+      g=g+theme(legend.position = "none")+ theme_bw()+scale_color_manual(values = c("Down-regulated" = "#E64B35",
+                                                                                    "Up-regulated" = "#3182bd",
                                                                                     "none" = "#636363"))
       }else if(input$theme=="Tufte"){
       g=g+geom_rangeframe() + theme_tufte()
@@ -117,57 +119,57 @@ shinyServer(function(input,output,session){
       return(g)
     })
 
-    output$vocalnoPlot<-renderPlot({
+    output$vocalnoPlot<-renderPlotly({
       g<-getvocalnoPlot()
-      print(g)  
-      },height=600,width="auto")
-    
-    
-    
+      ggplotly(g,width=600,height=600)
+      })
 
-  
 
-    
-#download plot option    
+
+
+
+
+
+#download plot option
     output$downloadDataPNG <- downloadHandler(
       filename = function() {
         paste("output", Sys.time(), '.png', sep='')
       },
-      
+
       content = function(file) {
         ggsave(file, getvocalnoPlot(),width = 10, height = 10, units = "in",pointsize=5.2)
       },
       contentType = 'image/png'
     )
-    
-    
+
+
     output$downloadDataPDF <- downloadHandler(
       filename = function() {
         paste("output", Sys.time(), '.pdf', sep='')
       },
-      
+
       content = function(file) {
         ggsave(file, getvocalnoPlot(),width = 10, height = 10, units = "in",pointsize=5.2)
       },
       contentType = 'image/pdf'
     )
-    
+
     output$downloadDataEPS <- downloadHandler(
       filename = function() {
         paste("output", Sys.time(), '.eps', sep='')
       },
-      
+
       content = function(file) {
         ggsave(file, getvocalnoPlot(),width = 10, height = 10, units = "in",pointsize=5.2)
       },
       contentType = 'image/eps'
     )
-    
+
     output$downloadDataTIFF <- downloadHandler(
       filename = function() {
         paste("output", Sys.time(), '.tiff', sep='')
       },
-      
+
       content = function(file) {
         ggsave(file, getvocalnoPlot(),width = 10, height = 10, units = "in",pointsize=5.2)
       },

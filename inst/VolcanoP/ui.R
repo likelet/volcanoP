@@ -2,6 +2,7 @@ library(shiny)
 library(shinydashboard)
 library(DT)
 library(shinyBS)
+library(plotly)
 #difined a text area input
 inputTextarea <- function(inputId, value="", nrows, ncols) {
   tagList(
@@ -90,9 +91,8 @@ dashboardPage(
                         downloadLink('downloadDataPNG', 'Download PNG-file',class="downloadLinkblack"),
                         downloadLink('downloadDataPDF', 'Download PDF-file',class="downloadLinkred"),
                         downloadLink('downloadDataEPS', 'Download EPS-file',class="downloadLinkblue"),
-                        downloadLink('downloadDataTIFF', 'Download TIFF-file',class="downloadLinkgreen")
-                        ,
-                        plotOutput("vocalnoPlot",height="100%",width="100%")
+                        downloadLink('downloadDataTIFF', 'Download TIFF-file',class="downloadLinkgreen"),
+                        htmltools::div( plotlyOutput("vocalnoPlot", width = 300, height = 600))
                       )
                       )
 

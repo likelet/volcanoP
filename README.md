@@ -12,7 +12,7 @@ library("Packages for check")
 ```
 Code for install dependencies R packages 
 ```R
-cDep <- c("ggplot2","shiny","shinyBS","shinydashboard","ggthemes","DT","dplyr","ggrepel")
+cDep <- c("ggplot2","shiny","shinyBS","shinydashboard","ggthemes","DT","dplyr","ggrepel","plotly")
 
 ###INSTALLED PACKAGES
 #get installed list
@@ -28,7 +28,7 @@ for(i in 1:length(cDep)){
 }
 
 ```
-### Install TBploter
+### Install volcanoP
 To install the latest development build directly from GitHub, run this:
 
 ```R
