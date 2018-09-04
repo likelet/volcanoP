@@ -1,0 +1,12 @@
+name: VolcanoP
+title:
+username:
+account: zhaoqi
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 378281
+bundleId: 1568213
+url: https://zhaoqi.shinyapps.io/VolcanoP/
+when: 1536043848.51371
+asMultiple: FALSE
+asStatic: FALSE

@@ -25,7 +25,7 @@ shinyServer(function(input,output,session){
 
     datasetInput <- reactive({
 
-          example<-read.table("data/test.txt",header=T,sep="\t",row.names=1)
+          example<-read.csv("data/test.txt",header=T,row.names=1)
           example=example[sample(1:nrow(example),500),]
           #example<-read.table("/srv/shiny-server/vocalnoPlotOnline/test.txt",header=T,sep="\t",row.names=1)
            	inFile <- input$file1
@@ -131,6 +131,17 @@ shinyServer(function(input,output,session){
 
 
 #download plot option
+    output$downloadExample <- downloadHandler(
+      filename ="exampleData.csv"
+      ,
+      content = function(file) {
+        data<-read.csv("data/test.txt",header=T,row.names = 1)
+        write.csv(data,file,quote=FALSE)
+
+      },
+      contentType = 'text/csv'
+    )
+
     output$downloadDataPNG <- downloadHandler(
       filename = function() {
         paste("output", Sys.time(), '.png', sep='')

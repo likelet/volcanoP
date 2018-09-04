@@ -32,11 +32,13 @@ dashboardPage(
                 width = 4, status = "info", solidHeader = TRUE,collapsible = TRUE,
                 title = "Data Input",
                 radioButtons("dataset", "", c(Example = "example", Upload = "upload",Input="Inputlist"),selected = 'example'),
+                downloadLink("downloadExample", "Download Example"),
                 conditionalPanel(
                   condition = "input.dataset == 'upload'",
 
                   fileInput('file1', 'Choose CSV/text File',
                             accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv')),
+
                   checkboxInput('header', 'Header', FALSE),
                   radioButtons('sep', 'Separator',
                                c(Comma=',',
