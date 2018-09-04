@@ -1,5 +1,7 @@
-# volcanoP
-an R package for simply plot volcano figures based on DE analysis result 
+# volcanoP  
+
+An R package for simply plot volcano figures based on DE analysis result.  
+Demo site: https://zhaoqi.shinyapps.io/VolcanoP/
 
 
 ### Screen shot
@@ -39,10 +41,10 @@ devtools::install_github("likelet/volcanoP")
 ### Update Information
 
 ### Designers:
-Qi Zhao, zhaoqi3@mail2.sysu.edu.cn<br/>
+Qi Zhao, zhaoqi@sysucc.org.cn<br/>
 
 ### Developers:
-Qi Zhao, zhaoqi3@mail2.sysu.edu.cn <br/>
+Qi Zhao, zhaoqi@sysucc.org.cn <br/>
 
 ### Maintainer:
 Qi Zhao
@@ -51,5 +53,4 @@ Please feel free contact us. <br/>
 ### Copyright
 MIT license
 
-### Citation 
-during preparation
+
